@@ -7,6 +7,7 @@ require('dotenv').config();
 // to use database
 const database = require("./config/database");
 
+const systemConfig = require("./config/system")
 
 // to use route
 const routeAdmin = require("./routes/admin/index.route");
@@ -26,6 +27,8 @@ const port = process.env.PORT;
 app.set("views", "./views");
 app.set("view engine", "pug");
 
+// App Local Variables: all these variables will exist in all pug files
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 // to use public file 
 app.use(express.static("public"));
