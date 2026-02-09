@@ -4,6 +4,8 @@
 const buttonStatus = document.querySelectorAll("[button-status]");
 
 if(buttonStatus.length > 0) {
+    // new URL() breaks the sentence into words that can easily
+    // understand and edit 
     let url = new URL(window.location.href); 
 
     buttonStatus.forEach(button => {
@@ -38,11 +40,12 @@ if(formSearch){
         if(keyword) {
             url.searchParams.set("keyword", keyword);
         } else {
+            // The else is there to remove the old keyword from the URL when the user clears the search box.
+            // Without it, the old search stays stuck in the URL forever.
             url.searchParams.delete("keyword");
         }
         window.location.href = url.href;
     })
 }
-
-
 // End Form Search
+
