@@ -8,8 +8,7 @@ const paginationHelper = require("../../helpers/pagination");
 
 module.exports.index = async (req, res) => {
 
-    // Đoạn bộ lọc
-
+    // Filter status
     const filterStatus = filterStatusHelper(req.query);
 
     let find = {
@@ -19,13 +18,19 @@ module.exports.index = async (req, res) => {
     if(req.query.status) {
         find.status = req.query.status
     }
+    // End filter status
 
-    // Đoạn tìm theo keyword
+
+
+    // Search by keyword
     const objectSearch = searchHelper(req.query);
 
     if (objectSearch.regex) {
         find.title = objectSearch.regex;
     }
+    // End search by keyword
+
+
 
     // Pagination
     const countProducts = await Product.countDocuments(find);
@@ -42,7 +47,6 @@ module.exports.index = async (req, res) => {
 
     const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
-    // console.log(products);
 
 
 

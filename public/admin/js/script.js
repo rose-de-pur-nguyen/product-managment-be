@@ -34,6 +34,7 @@ if(formSearch){
     let url = new URL(window.location.href);
 
     formSearch.addEventListener("submit", (e) => {
+        // stop reloading the page after submitting 
         e.preventDefault();
         const keyword = e.target.elements.keyword.value;
 
@@ -48,6 +49,8 @@ if(formSearch){
     })
 }
 // End Form Search
+
+
 
 // Pagination
 const buttonsPagination = document.querySelectorAll("[button-pagination]");
