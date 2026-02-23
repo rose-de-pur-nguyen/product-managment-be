@@ -95,6 +95,13 @@ module.exports.changeMulti = async (req, res) => {
         case "inactive":
             await Product.updateMany({ _id: { $in: ids }}, { status: "inactive" });
             break;
+        // Delete-multi
+        case "delete-all":
+            await Product.updateMany({ _id: { $in: ids }}, {
+                deleted: true,
+                deletedAt: new Date()
+            });
+            break;
         default:
             break;
     }
@@ -122,6 +129,7 @@ module.exports.deleteItem = async (req, res) => {
 
     redirectHelper(req, res);
 }
+
 
 
 
