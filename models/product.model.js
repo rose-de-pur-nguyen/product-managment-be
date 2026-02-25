@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
+const slug = require("mongoose-slug-updater");
+mongoose.plugin(slug);
+
 // this is how a product should look like 
 const productSchema = new mongoose.Schema({
-    title: String,
+    title: String, // Sản phẩm 1
     description: String, 
     price: Number,
     discountPercentage: Number,
@@ -10,6 +13,11 @@ const productSchema = new mongoose.Schema({
     thumbnail: String,
     status: String,
     position: Number,
+    slug: {
+        type: String,
+        slug: "title", // san-pham-1
+        unique: true // to get unique id for same product titles
+    },
     deleted: {
         type: Boolean,
         default: false
