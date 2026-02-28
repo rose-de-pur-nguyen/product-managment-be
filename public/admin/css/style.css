@@ -93,3 +93,36 @@ a {
     cursor: pointer;
 }
 /* End Show Alert */
+
+/* Image Preview */
+.image-input {
+    display: block;
+}
+
+.image-preview {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.image-preview[src=""] {
+    display: none;
+    border: none;
+}
+
+.remove-image-button {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: rgb(16, 218, 151);
+    margin-top: 10px;
+}
+/* End Image Preview */

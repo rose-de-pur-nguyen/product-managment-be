@@ -56,15 +56,29 @@ block main
                 value="0"
                 min="0"
             )
-        div(class="form-group")
+        //- do not name an element by ids for resuable reason in future
+        div(
+            class="form-group"
+            upload-image
+        )
             label(for="thumbnail") Ảnh 
             input(
                 type="file"
-                class="form-control-file"
+                class="form-control-file image-input"
                 id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
+                upload-image-input
             )
+            img(
+                src=''
+                upload-image-preview
+                class="image-preview"
+            )
+            span(
+                remove-image-preview
+                class="remove-image-button"
+            ) x
         //- * = all image files
         div(class="form-group")
             label(for="position") Vị trí
