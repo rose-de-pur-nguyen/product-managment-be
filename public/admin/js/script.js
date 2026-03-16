@@ -181,33 +181,35 @@ const uploadImage = document.querySelector("[upload-image]");
 if(uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+    const removeImageButton = document.querySelector("[remove-image-preview]");
 
     uploadImageInput.addEventListener("change", (e) => {
         // destructuring like below -> get only the first item
         const [file] = e.target.files;
-        
         uploadImagePreview.src = URL.createObjectURL(file);
-    })
-}
 
-const removeImageButton = document.querySelector("[remove-image-preview]");
-const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
-const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
-
-if (!uploadImageInput.value) {
-    removeImageButton.classList.add('d-none');
-
-    uploadImageInput.addEventListener("change", () => {
-        removeImageButton.classList.remove('d-none');
+        if(uploadImageInput.value) {
+            removeImageButton.classList.remove("d-none");
+        }
     });
 
-    removeImageButton.addEventListener("click", () => {
-        uploadImageInput.value = "";
-        uploadImagePreview.src = "";
+    if (!uploadImageInput.value) {
+        removeImageButton.classList.remove('d-none');
+    };
 
-        removeImageButton.classList.add('d-none');
-    })
-}
-   
+    if (removeImageButton) {
+        removeImageButton.addEventListener("click", () => {
+            uploadImageInput.value = "";
+            uploadImagePreview.src = "";
+            removeImageButton.classList.add('d-none');
+        });
+    };
+    
 
+};
 // End Upload Image
+
+// Sort
+const sortForm = document.querySelector("[sort]");
+console.log(sortForm);
+// End Sort
