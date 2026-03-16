@@ -177,16 +177,6 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
-    // req.file có 1 biến nữa (path) gần giống với "filename"
-    // nhưng mà có "public" đứng trước
-    // không chọn "path" vì khi search sẽ không có "public"
-
-    // if user tampers with public js by deleting "required" for the title input
-    // we cant set the name for the image => server dies
-    if(req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
-
     // create a new product
 
     // create in module - not save
@@ -210,7 +200,7 @@ module.exports.edit = async (req, res) => {
 
     const product = await Product.findOne(find);
     
-    console.log(product);
+    // console.log(product);
 
     res.render("admin/pages/products/edit", {
         pageTitle: "Chỉnh sửa sản phẩm",
