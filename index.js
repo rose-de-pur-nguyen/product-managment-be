@@ -36,7 +36,7 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // to use pug
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 // Flash
@@ -56,8 +56,11 @@ app.use((req, res, next) => {
 // App Local Variables: all these variables will exist in all pug files
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
+console.log(__dirname);
+
 // to use public file 
-app.use(express.static("public"));
+// __dirname = absolute path of the folder where the current file is located
+app.use(express.static(`${__dirname}/public`));
 
 // routes
 route(app);
