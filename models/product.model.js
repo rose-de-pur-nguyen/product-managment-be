@@ -5,7 +5,12 @@ mongoose.plugin(slug);
 
 // this is how a product should look like 
 const productSchema = new mongoose.Schema({
+    // have to match with "name"
     title: String, // Sản phẩm 1
+    product_category_id: {
+        type: String,
+        default: ""
+    },
     description: String, 
     price: Number,
     discountPercentage: Number,
