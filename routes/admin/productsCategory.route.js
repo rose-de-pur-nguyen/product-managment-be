@@ -22,4 +22,15 @@ router.post(
     controller.createPost
 )
 
+router.get("/edit/:id", controller.edit);
+
+router.patch(
+    "/edit/:id",
+    upload.single("thumbnail"),
+    uploadCloud.upload,
+    validate.createPost((req) => `${configSystem.prefixAdmin}/products-category/edit/${req.params.id}`),
+    controller.editPost
+
+)
+
 module.exports = router;

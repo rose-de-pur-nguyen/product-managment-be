@@ -55,3 +55,54 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 }
+
+// [GET] /admin/products-category/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const data = await ProductCategory.findOne({ 
+            _id: id,
+            deleted: false
+        });
+
+        // only automatically throw error is id is invalid (not in mongodb id format)
+
+        if(data === null) {
+            throw new Error("Record not found")
+        }
+
+        const records = await ProductCategory.find({
+            deleted: false
+        });
+
+        const newRecords = createTreeHelper(records);
+
+        // console.log(newRecords);
+
+        const record = await ProductCategory.findOne({ _id: req.params.id });
+
+        res.render("admin/pages/productsCategory/edit", {
+            pageTitle: "Chỉnh sửa danh mục sản phẩm",
+            record: record,
+            records: newRecords,
+        })
+    } catch (error) {
+        console.log(error);
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    }
+    
+}
+
+// [POST] /admin/products-category/edit/:id
+module.exports.editPost = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await ProductCategory.updateOne({ _id: id}, req.body);
+        req.flash("success", "Cập nhật thành công");
+    } catch (error) {
+    req.flash("error", "Cập nhật thất bại");
+    }   
+    res.redirect(`${systemConfig.prefixAdmin}/products-category/edit/${id}`);
+}
+
