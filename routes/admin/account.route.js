@@ -25,4 +25,18 @@ router.post(
     accountController.createAccount
 );
 
+router.get("/edit/:id", accountController.edit);
+
+router.patch(
+    "/edit/:id",
+    (req, res, next) => {
+        req.uploadFolder = "account-avatars";
+        next();
+    },
+    upload.single("avatar"),
+    uploadCloud.upload,
+    validate.editPost((req) => `/admin/accounts/edit/${req.params.id}`),
+    accountController.editAccount
+);
+
 module.exports = router;

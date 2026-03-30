@@ -66,3 +66,63 @@ module.exports.createAccount = async (req, res) => {
 
     res.redirect(`${systemConfig.prefixAdmin}/accounts`);
 }
+
+// [GET] /admin/accounts/edit/:id 
+module.exports.edit = async (req, res) => {
+    let find = {
+        deleted: false,
+        _id: req.params.id
+    };
+
+    const record = await Account.findOne(find);
+
+    const roles = await Role.find({
+        deleted: false
+    })
+
+    res.render("admin/pages/accounts/edit", {
+        pageTitle: "Chỉnh sửa tài khoản",
+        record: record,
+        roles: roles
+    })
+}
+
+// [PATCH] /admin/accounts/edit/:id 
+module.exports.editAccount = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        console.log(id);
+
+        // kiểm tra email đã tồn tại hay chưa, nếu tồn tại thì không update
+        // $ne: not equal, tìm kiếm tất cả bản ghi có email trùng với email nhập vào nhưng id khác với id đang edit
+        const emailExist = await Account.findOne({
+            _id: { $ne: id },
+            email: req.body.email,
+            deleted: false
+        })
+
+        if(emailExist) {
+            req.flash("error", "Email đã tồn tại");
+
+        } else {
+            if(req.body.password) {
+                req.body.password = md5(req.body.password);
+            } else {
+                // không nhập password mới thì giữ nguyên password cũ, 
+                // không update password thành rỗng
+                delete req.body.password;
+            }
+
+        await Account.updateOne({ _id: id }, req.body);
+        req.flash("success", "Cập nhật tài khoản thành công");
+        }
+        
+    } catch(error) {
+        console.log(error);
+        req.flash("error", "Cập nhật tài khoản thất bại");
+    }
+
+    res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${id}`);
+}
+
