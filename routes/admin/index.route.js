@@ -5,6 +5,7 @@ const productRoutes = require("./product.route");
 const productsCategoryRoutes = require("./productsCategory.route");
 const roleRoutes = require("./role.route");
 const accountRoutes = require("./account.route");
+const authRoutes = require("./auth.route");
 
 module.exports = (app) => {
     // always have the "/admin" to differentiate with client side
@@ -21,6 +22,8 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + "/roles", roleRoutes);
 
     app.use(PATH_ADMIN + "/accounts", accountRoutes);
+
+    app.use(PATH_ADMIN + "/auth", authRoutes);
     
     // or
     // app.use("/admin/dashboard", dashboardRoutes);
