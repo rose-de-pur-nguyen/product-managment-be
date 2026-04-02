@@ -68,7 +68,7 @@ block main
                 select(name="role_id" id="role_id" class="form-control")
                     option(disabled selected) -- Chọn quyền --
                     each role in roles 
-                    option(value=role.id) #{role.title} 
+                        option(value=role.id) #{role.title} 
             div(class="form-group form-check form-check-inline") 
                 input(
                     type="radio"

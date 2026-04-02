@@ -1,0 +1,7 @@
+mixin sub-menu(categories, path)
+    ul
+        each category in categories  
+            li 
+                a(href=`${path}/${category.slug}`) #{category.title} 
+                if category.children && category.children.length > 0 
+                    +sub-menu(category.children, path)
