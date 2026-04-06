@@ -84,6 +84,9 @@ module.exports.index = async (req, res) => {
         if(user) {
             product.accountFullName = user.fullName;
         }
+        else {
+            product.accountFullName = "Not Found..";
+        }
 
         // fetch latest account that edited the product 
         const updatedBy = product.updatedBy.slice(-1)[0];
@@ -92,7 +95,11 @@ module.exports.index = async (req, res) => {
                 _id: updatedBy.account_id
             })
 
-            updatedBy.accountFullName = userUpdated.fullName;
+            if (userUpdated) {
+                updatedBy.accountFullName = userUpdated.fullName;
+            } else {
+                updatedBy.accountFullName = "Not Found..";
+            }
         }
     }
 
