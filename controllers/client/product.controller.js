@@ -24,20 +24,35 @@ module.exports.index = async (req, res) => {
     });
 }
 
-// [GET] /products/:slug
+// [GET] /products/detail/:slug
 module.exports.detail = async (req, res) => {
     try {
         const find = {
             status: "active",
             deleted: false,
-            slug: req.params.slug
+            slug: req.params.slugProduct
         };
 
         const product = await Product.findOne(find);
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
+        const newProduct = productHelper.priceNewProducts([product])[0];
+
+        if (newProduct.product_category_id) {
+            const category = await ProductCategory.findOne({
+                _id: newProduct.product_category_id,
+                deleted: false,
+                status: "active"
+            });
+
+            newProduct.category = category;
+        }
 
         res.render("client/pages/products/detail", {
-            pageTitle: product.title,
-            product: product
+            pageTitle: newProduct.title,
+            product: newProduct
         });
     } catch(error) {
         res.redirect("/products");
