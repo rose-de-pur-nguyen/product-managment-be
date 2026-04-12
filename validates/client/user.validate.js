@@ -49,3 +49,28 @@ module.exports.forgotPasswordPost = (req, res, next) => {
     next();
 }
 
+module.exports.otp = (req, res, next) => {
+    if(!req.body.otp) {
+        req.flash("error", "Vui lòng nhập mã OTP!");
+        res.redirect(`/user/password/otp?email=${req.body.email}`);
+        return;
+    }
+
+    next();
+}
+
+module.exports.resetPassword = (req, res, next) => {
+    if(!req.body.newPassword) {
+        req.flash("error", "Vui lòng nhập mật khẩu mới!");
+        res.redirect("/user/password/reset");
+        return;
+    }
+
+    if(!req.body.confirmPassword) {
+        req.flash("error", "Vui lòng xác nhận mật khẩu!");
+        res.redirect("/user/password/reset");
+        return;
+    }
+
+    next();
+}
