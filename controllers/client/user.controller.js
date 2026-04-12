@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
+const Cart = require("../../models/cart.model");
 
 const generateHelper = require("../../helpers/generate");
 const sendMailHelper = require("../../helpers/sendMail");
@@ -62,6 +63,20 @@ module.exports.loginPost = async (req, res) => {
         return;
     }
 
+    const cartExist = await Cart.findOne({
+        user_id: user.id
+    });
+
+    if(!cartExist) {
+        await Cart.updateOne({
+            _id: req.cookies.cartId
+        }, {
+            user_id: user.id
+        });
+    } else {
+        res.cookie("cartId", cartExist.id);
+    }
+
     res.cookie("tokenUser", user.tokenUser); 
     res.redirect("/");
 }
@@ -69,6 +84,7 @@ module.exports.loginPost = async (req, res) => {
 // [GET] /user/logout 
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser");
+    res.clearCookie("cartId");
     res.redirect("/");
 }
 
